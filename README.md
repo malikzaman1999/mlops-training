@@ -27,13 +27,21 @@ models from exploration to production.
 
 ```text
 mlops-training/
+├── MLOps/
+│   ├── notes.md       # Learning log and study index
+│   ├── google-cloud-mlops-pipelines.md
+│   └── interview-questions.md
 ├── notes/
 │   ├── datacamp/     # Course notes and exercise summaries
 │   └── mlops/        # MLOps concepts, tools, and commands
 ├── projects/         # End-to-end practice projects
+├── material.md       # Zero-to-interview learning curriculum
 ├── .gitignore
 └── README.md
 ```
+
+Start with [material.md](material.md), then use [MLOps/notes.md](MLOps/notes.md)
+as the ongoing learning log.
 
 ## Project standard
 
