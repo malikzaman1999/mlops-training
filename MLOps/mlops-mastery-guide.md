@@ -470,7 +470,78 @@ If you want to become an MLOps engineer, learn in this order:
 12. Security and governance
 13. LLMOps and GenAI evaluation
 
-## 9. What to Practice
+## 9. Kubernetes Basics
+
+Kubernetes shows up everywhere in MLOps, so it is worth learning the basic
+building blocks clearly.
+
+### 9.1 Cluster vs Node vs Pod
+
+- `Cluster` = the whole Kubernetes environment.
+- `Node` = one machine in that cluster, usually a VM or server.
+- `Pod` = the smallest deployable unit, running on a node.
+
+How they relate:
+
+- A `cluster` contains many `nodes`.
+- A `node` can run many `pods`.
+- A `pod` runs on exactly one node at a time.
+
+Why it matters:
+
+- The cluster is the platform.
+- The node is the compute host.
+- The pod is the unit Kubernetes schedules and replaces.
+
+### 9.2 Pod vs Container
+
+- `Container` = one packaged process with code, runtime, and dependencies.
+- `Pod` = a wrapper around one or more containers that share networking and
+  storage.
+
+Key difference:
+
+- A container is the runtime unit.
+- A pod is the Kubernetes scheduling unit.
+
+Why pods exist:
+
+- Kubernetes manages pods, not raw containers.
+- A pod lets multiple tightly coupled containers run together, like an app
+  container plus a sidecar.
+
+### 9.3 Deployment vs ReplicaSet vs Pod
+
+- `Pod` = the actual running instance of your app.
+- `ReplicaSet` = keeps the desired number of pod replicas running.
+- `Deployment` = manages ReplicaSets and handles rollout updates.
+
+How they work together:
+
+- You define a `Deployment`.
+- The Deployment creates and manages a `ReplicaSet`.
+- The ReplicaSet creates and maintains the `Pods`.
+
+Why it matters:
+
+- `Pod`: runs the app.
+- `ReplicaSet`: ensures availability and scaling.
+- `Deployment`: handles versioned updates, rollback, and rollout strategy.
+
+### 9.4 Instance vs Pod
+
+- `Instance` usually means one compute machine, like one VM or cloud server.
+- In Kubernetes, an instance often refers to the machine that hosts one or more
+  pods.
+- It is not a Kubernetes object by itself.
+
+Important distinction:
+
+- A single `instance` can run many `pods`.
+- A single `pod` runs on only one `node` at a time.
+- A `cluster` contains many `nodes` and many `pods`.
+
+## 10. What to Practice
 
 ### Practice Area 1: Reproducibility
 
@@ -556,7 +627,7 @@ Why:
 
 - production data changes continuously.
 
-## 10. Exercises With Answers
+## 11. Exercises With Answers
 
 ### Exercise 1
 
@@ -638,7 +709,7 @@ storage-heavy. Separate stores scale better and are easier to manage.
 model versions using consistent tasks and scoring rules, and keep the feedback
 loop visible in the evaluation system.
 
-## 11. Mini Project Ideas
+## 12. Mini Project Ideas
 
 ### Project 1: Binary Classifier with Full Tracking
 
@@ -680,7 +751,7 @@ Build a system where:
 - rollbacks are one command
 - model promotion requires passing tests
 
-## 12. Common Failure Modes
+## 13. Common Failure Modes
 
 ### 12.1 Training-Serving Skew
 
@@ -727,12 +798,12 @@ Fix:
 - enforce release gates
 - compare against a baseline
 
-## 13. How to Think About MLOps in One Sentence
+## 14. How to Think About MLOps in One Sentence
 
 MLOps is the system that makes machine learning repeatable, measurable,
 deployable, and safe to evolve.
 
-## 14. Suggested Weekly Study Cycle
+## 15. Suggested Weekly Study Cycle
 
 Each week:
 
@@ -745,7 +816,7 @@ Each week:
 
 That cycle is enough to build real skill.
 
-## 15. Short Checklist
+## 16. Short Checklist
 
 Before you call a model production-ready, ask:
 
@@ -760,4 +831,3 @@ Before you call a model production-ready, ask:
 
 If the answer to any of these is no, the system is not fully production-ready
 yet.
-
