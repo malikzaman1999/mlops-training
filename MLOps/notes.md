@@ -7,6 +7,7 @@ Use this file as the index and chronological log for MLOps study sessions.
 - [Google Cloud: MLOps—Continuous delivery and automation pipelines in machine learning](https://docs.cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
 - [Detailed local study guide](google-cloud-mlops-pipelines.md)
 - [Interview questions from the article](interview-questions.md)
+- [MLOps mastery guide](mlops-mastery-guide.md)
 
 ## Initial mental model
 
