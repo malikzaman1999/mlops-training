@@ -38,3 +38,21 @@ output "subnet_1_id" {
 output "subnet_2_id" {
   value = azurerm_subnet.app_2.id
 }
+
+output "postgres_fqdn" {
+  # The DNS hostname the MLflow tracking server will connect to, e.g.
+  # "psql-mlops.postgres.database.azure.com" -- this becomes part of the
+  # backend-store connection string, mirroring the course notes'
+  # `sqlite:///mlflow.db` but now as
+  # `postgresql://user:pass@<this-value>:5432/mlflow`.
+  value = azurerm_postgresql_flexible_server.mlflow.fqdn
+}
+
+output "storage_account_name" {
+  value = azurerm_storage_account.mlflow.name
+}
+
+output "artifact_container_url" {
+  # The base URL MLflow's --default-artifact-root will point at.
+  value = "${azurerm_storage_account.mlflow.primary_blob_endpoint}${azurerm_storage_container.mlflow_artifacts.name}"
+}

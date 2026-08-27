@@ -18,9 +18,15 @@
 # Which Azure region to create every resource in.
 # "eastus" is one of Azure's original, generally cheapest/most-available
 # regions -- a safe default for a learning project.
+# NOTE: changed from "eastus" to "centralus" after discovering (via
+# `az postgres flexible-server list-skus --location eastus`) that this
+# subscription is restricted from provisioning PostgreSQL Flexible Server
+# in eastus and several other regions -- a common corporate/restricted-
+# subscription limitation, not a Terraform or config problem. "centralus"
+# was confirmed unrestricted with the SKU/version this project needs.
 variable "location" {
   type    = string
-  default = "eastus"
+  default = "centralus"
 }
 
 # A short name used as a prefix/suffix when naming every resource
@@ -58,4 +64,46 @@ variable "subnet_1_cidr" {
 variable "subnet_2_cidr" {
   type    = string
   default = "10.0.2.0/24"
+}
+
+# ------------------------------------------------------------------------
+# PHASE 2 -- MLflow tracking server's storage layer
+# ------------------------------------------------------------------------
+
+# The admin username for the Postgres server (the "backend store" -- holds
+# MLflow's experiment/run/param/metric metadata, same DB role your local
+# `sqlite:///mlflow.db` played in the course notes, just a real server now).
+variable "postgres_admin_username" {
+  type    = string
+  default = "mlflowadmin"
+}
+
+# The admin PASSWORD for the Postgres server.
+#
+# Deliberately has NO default value here, and is marked `sensitive = true`.
+# This is the correct way to handle secrets in Terraform:
+#   - `sensitive = true` tells Terraform to redact this value from `plan`/
+#     `apply` console output and from `terraform show` -- it won't
+#     accidentally get printed to your terminal or CI logs.
+#   - No default means Terraform will REFUSE to run until you supply a
+#     value, which you do one of two ways, NEITHER of which touches a
+#     file that gets committed to git:
+#       1. An environment variable:  export TF_VAR_postgres_admin_password="..."
+#       2. A terraform.tfvars file containing:  postgres_admin_password = "..."
+#          (terraform.tfvars matches the `*.tfvars` line already in
+#          terraform/.gitignore, so it will never be committed)
+#   Hardcoding a real password as a `default` here would be a genuine
+#   security mistake -- this file IS committed to git.
+variable "postgres_admin_password" {
+  type      = string
+  sensitive = true
+}
+
+# Your current public IP address, used to scope the Postgres and Storage
+# Account firewall rules to "only me" instead of "anyone on the internet"
+# (0.0.0.0/0) -- the same spirit as AWS.md's security group, but tighter,
+# since a database doesn't need the same "anyone can reach it" exposure an
+# ALB does.
+variable "allowed_client_ip" {
+  type = string
 }

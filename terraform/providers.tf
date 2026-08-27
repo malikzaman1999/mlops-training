@@ -38,6 +38,16 @@ terraform {
       # version instead of drifting to a newer 4.x release.
       version = "~> 4.0"
     }
+
+    # A second, small provider used only to generate a random suffix for
+    # the Storage Account name in storage.tf (Azure Storage Account names
+    # must be GLOBALLY unique across all of Azure, not just your
+    # subscription -- "random" gives us an easy way to avoid a naming
+    # collision with someone else's storage account elsewhere in the world).
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
+    }
   }
 }
 
